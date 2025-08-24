@@ -4,19 +4,19 @@ networks:
     driver: bridge
 
 services:
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
-    pull_policy: always
-    ports:
-      - "11434:11434"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [ gpu ]
+#  ollama:
+#    image: ollama/ollama
+#    container_name: ollama
+#    pull_policy: always
+#    ports:
+#      - "11434:11434"
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: 1
+#              capabilities: [ gpu ]
 
   qdrant:
     image: qdrant/qdrant
@@ -44,22 +44,22 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
-    ports:
-      - '5672:5672'
-      - '15672:15672'
-    networks:
-      - default
-    environment:
-      - RABBITMQ_SECURE_PASSWORD=yes
-      - RABBITMQ_DEFAULT_USER=tuan
-      - RABBITMQ_DEFAULT_PASS=20226100
-      - RABBITMQ_DEFAULT_VHOST=/
-    volumes:
-      - ./rabbitmq/plugin:/etc/rabbitmq
-      - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/
+#  rabbitmq:
+#    image: rabbitmq:3-management
+#    container_name: rabbitmq
+#    ports:
+#      - '5672:5672'
+#      - '15672:15672'
+#    networks:
+#      - default
+#    environment:
+#      - RABBITMQ_SECURE_PASSWORD=yes
+#      - RABBITMQ_DEFAULT_USER=tuan
+#      - RABBITMQ_DEFAULT_PASS=20226100
+#      - RABBITMQ_DEFAULT_VHOST=/
+#    volumes:
+#      - ./rabbitmq/plugin:/etc/rabbitmq
+#      - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/
 
 
 

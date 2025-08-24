@@ -1,2 +1,4 @@
-Xin chào, tôi là ai, tôi có thể giúp gì cho bạn?
+Xin chào, tôi là RAG, tôi có thể giúp gì cho bạn?
+Cảm ơn
+Chào tạm biệt
 

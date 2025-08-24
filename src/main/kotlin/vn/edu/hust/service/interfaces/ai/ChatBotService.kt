@@ -6,6 +6,6 @@ import reactor.core.publisher.Flux
 @Service
 interface ChatBotService {
 
-    fun generateAnswer(query: String): Flux<String>
+    suspend fun generateAnswer(query: String): Flux<String>
 
 }
