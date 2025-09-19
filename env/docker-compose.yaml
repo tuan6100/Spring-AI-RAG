@@ -4,22 +4,22 @@ networks:
     driver: bridge
 
 services:
-#  ollama:
-#    image: ollama/ollama
-#    container_name: ollama
-#    pull_policy: always
-#    ports:
-#      - "11434:11434"
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - driver: nvidia
-#              count: 1
-#              capabilities: [ gpu ]
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    pull_policy: always
+    ports:
+      - "11434:11434"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
 
   qdrant:
-    image: qdrant/qdrant
+    image: qdrant/qdrant:gpu-nvidia-latest
     container_name: qdrant
     ports:
       - "6333:6333"
@@ -27,22 +27,18 @@ services:
     networks:
       - default
     environment:
-      QDRANT__GPU__INDEXING: 1
+      - QDRANT__LOG_LEVEL=debug
+      - QDRANT__GPU__INDEXING=1
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
               capabilities: [ gpu ]
-              count: 1
+              count: all
     volumes:
       - ./qdrant/data:/qdrant/storage
       - ./qdrant/config/production.yaml:/qdrant/config/production.yaml
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
 
 #  rabbitmq:
 #    image: rabbitmq:3-management

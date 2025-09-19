@@ -9,14 +9,14 @@ import org.springframework.http.HttpStatus
 class GlobalException {
 
     @ExceptionHandler(AiException::class)
-    fun handleAiException(e: AiException): ResponseEntity<Any> {
+    fun handleServerException(e: AiException): ResponseEntity<Any> {
         val responseBody = mapOf("message" to e.message)
-        return ResponseEntity(responseBody, HttpStatus.BAD_REQUEST)
+        return ResponseEntity(responseBody, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
     @ExceptionHandler(Exception::class)
     fun handleOtherException(e: Exception): ResponseEntity<Any> {
         val responseBody = mapOf("message" to e.message)
-        return ResponseEntity(responseBody, HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity(responseBody, HttpStatus.BAD_REQUEST)
     }
 }

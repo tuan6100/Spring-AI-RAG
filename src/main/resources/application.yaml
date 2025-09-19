@@ -1,6 +1,3 @@
-server:
-  port: 8000
-
 
 spring:
   application:
@@ -23,11 +20,13 @@ spring:
       qdrant:
         host: localhost
         port: 6334
-        collection-name: ai-chat-bot
+        collection-name: genshin_wiki
+        vector-name: default
+
     ollama:
       base-url: http://localhost:11434
       init:
-        pull-model-strategy: when_missing
+        pull-model-strategy: never
         chat:
           additional-models:
             - llama3.2
@@ -35,57 +34,30 @@ spring:
         timeout: 120m
         max-retries: 10
       chat:
-        enabled: true
         options:
           temperature: 0.6
           top-k: 5
           top-p: 0.9
         model: llama3.2
-      embedding:
-        enabled: true
-        model: llama3.2
-        options:
-          temperature: 0.6
-          top-k: 10
-          top-p: 0.9
 
-  cassandra:
-    port: 9042
-    keyspace-name: chat_bot_data_keyspace
-    local-datacenter: datacenter1
-    schema-action: create_if_not_exists 
+  autoconfigure:
+    exclude:
+      - org.springframework.ai.vectorstore.qdrant.autoconfigure.QdrantVectorStoreAutoConfiguration
+      - org.springframework.ai.model.transformers.autoconfigure.TransformersEmbeddingModelAutoConfiguration
 
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: tuan
-    password: 20226100
-    virtual-host: /
-    connection-timeout: 10s
-    listener:
-      simple:
-        default-requeue-rejected: false
-        acknowledge-mode: auto
-        retry:
-          enabled: true
-          max-attempts: 3
-          max-interval: 200
-          multiplier: 1
-    template:
-      retry:
-        enabled: true
-        initial-interval: 200s
-        max-attempts: 3
-        max-interval: 200s
-        multiplier: 1.0
-
+  aop:
+    auto: true
+    proxy-target-class: tru
 
 logging:
     level:
+#      vn.edu.hust: DEBUG
       org:
         springframework:
           ai:
             chat:
               client:
                 advisor: DEBUG
+            vectorstore:
+              qdrant: DEBUG
 
